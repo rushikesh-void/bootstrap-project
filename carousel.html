@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .carousel-container {
+            width: 80%;
+            max-width: 1200px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            text-align: center;
+            position: relative;
+            padding: 10px;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .carousel-item .content {
+            position: absolute;
+            bottom: 10%;
+            margin-top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .carousel-item .content h4 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .carousel-item .content span {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .carousel-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .carousel-controls button {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .carousel-controls button:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .carousel-item {
+                flex: 0 0 50%;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .carousel-item {
+                flex: 0 0 33.333%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="carousel-container">
+        <div class="carousel-track">
+            <div class="carousel-item">
+                <img src="./img/product-1.jpg" alt="Green Tea">
+                <div class="content">
+                    <h4>Green Tea</h4>
+                    <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, atque!</span>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./img/product-2.jpg" alt="Green Tea">
+                <div class="content">
+                    <h4>Black Tea</h4>
+                    <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, atque!</span>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./img/product-3.jpg" alt="Green Tea">
+                <div class="content">
+                    <h4>Spiced Tea</h4>
+                    <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, atque!</span>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="./img/product-4.jpg" alt="Green Tea">
+                <div class="content">
+                    <h4>Orange Tea</h4>
+                    <span>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, atque!</span>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-control">
+            <button class="prev">&lt;</button>
+            <button class="next">&gt;</button>
+        </div>
+    </div>
+    <script>
+        const track = document.querySelector('.carousel-track');
+        const items = document.querySelectorAll('.carousel-item');
+        const nextButton = document.querySelector('.next');
+        const prevButton = document.querySelector('.prev');
+
+        let currentIndex = 0;
+        const totalItems = items.length;
+        const autoplayInterval = 3000;
+
+        function updatecarousel() {
+            const itemWidth = items[0].getBoundingClientRect().width;
+            track.style.transition = 'transform 0.5s ease-in-out';
+            track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+
+
+        }
+        function nextSlider() {
+            const itemWidth = items[0].getBoundingClientRect().width;
+            if (currentIndex === totalItems) {
+                track.style.transition = 'none';
+                currentIndex = 0;
+                track.style.transform = `translateX(0)`;
+                setTimeout(() => {
+                    track.style.transition = `transform 0.5s ease-in-out`;
+                    currentIndex++;
+                    updatecarousel();
+
+                }, 1);
+            } else {
+                currentIndex++;
+                updatecarousel();
+            }
+        }
+        setInterval(nextSlider, autoplayInterval);
+
+        window.addEventListener('resize', () => {
+            currentIndex = 0;
+            updatecarousel();
+        });
+        updatecarousel();
+        const firstItemClone = items[0].cloneNode(true);
+        track.appendChild(firstItemClone);
+    </script>
+</body>
+
+</html>
